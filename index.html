@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="phaser.min.js"></script>
+</head>
+<body>
+
+    <script>
+    var config = {
+        type: Phaser.AUTO,
+        width: 800,
+        height: 600,
+        physics: {
+            default: 'arcade'
+        },
+        scene: {
+            preload: preload,
+            create: create,
+            update: update
+        }
+    };
+
+    var game = new Phaser.Game(config);
+
+    function preload()
+    {
+        this.load.image('sky', 'assets/sky.png');
+        this.load.image('shield', 'assets/shield.png');
+        this.load.image('star', 'assets/star.png');
+        this.load.image('bomb', 'assets/bomb.png');
+    }
+
+    function create()
+    {
+        this.add.image(400, 300, 'sky');
+
+        var star = this.physics.add.staticGroup()
+        star.create(400, 300, 'star');
+
+        var shield = this.physics.add.staticGroup();
+        shield.create(400, 275, 'shield');
+
+        var bombs = this.physics.add.group();
+        var block = bombs.create(10, 275, 'bomb').setVelocity(300, 0);
+
+        this.physics.add.collider(star, bombs, starBombsCollide);
+        this.physics.add.collider(shield, bombs, shieldBombsCollide);
+
+
+        //  Input Events
+        cursors = this.input.keyboard.createCursorKeys();
+    }
+
+    function update()
+    {
+        // if (gameOver) {
+        //     return;
+        // }
+
+        if (cursors.left.isDown) {
+            
+        }
+        else if (cursors.right.isDown) {
+            
+        }
+        else if (cursors.up.isDown) {
+            
+        }
+        else if (cursors.down.isDown) {
+
+        }
+    }
+
+    function starBombsCollide(star, bombs) {
+        console.log('star collided with bomb');
+    }
+
+    function shieldBombsCollide(shield, bombs) {
+        console.log('star collided with bomb');
+    }
+    </script>
+
+</body>
+</html>
