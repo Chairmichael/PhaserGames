@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <script src="phaser.min.js"></script>
 </head>
 <body>
@@ -21,30 +22,36 @@
     };
 
     var game = new Phaser.Game(config);
+    var defender;
+    var shield;
+    var rocks;
 
     function preload()
     {
-        this.load.image('sky', 'assets/sky.png');
-        this.load.image('shield', 'assets/shield.png');
-        this.load.image('star', 'assets/star.png');
-        this.load.image('bomb', 'assets/bomb.png');
+        let gradient = 'gradient' + Math.floor((Math.random() * 30) + 1) + '.png';
+        this.load.setBaseURL('http://labs.phaser.io/assets');
+        this.load.image('sky', 'skies/' + gradient);
+        this.load.image('shield', 'sprites/bullets/bullet9.png');
+        this.load.image('defender', 'sprites/ufo.png');
+        this.load.image('rock', 'games/asteroids/asteroid1.png');
     }
 
     function create()
     {
         this.add.image(400, 300, 'sky');
 
-        var star = this.physics.add.staticGroup()
-        star.create(400, 300, 'star');
+        defender = this.physics.add.staticGroup()
+        defender.create(400, 300, 'defender');
 
-        var shield = this.physics.add.staticGroup();
+        shield = this.physics.add.group();
         shield.create(400, 275, 'shield');
+        shield.rotate(-Math.PI/2)
 
-        var bombs = this.physics.add.group();
-        var block = bombs.create(10, 275, 'bomb').setVelocity(300, 0);
+        rocks = this.physics.add.group();
+        var block = rocks.create(10, 300, 'rock').setVelocity(300, 0);
 
-        this.physics.add.collider(star, bombs, starBombsCollide);
-        this.physics.add.collider(shield, bombs, shieldBombsCollide);
+        this.physics.add.collider(defender, rocks, defenderRocksCollide);
+        this.physics.add.collider(shield, rocks, shieldRocksCollide);
 
 
         //  Input Events
@@ -53,30 +60,40 @@
 
     function update()
     {
+
         // if (gameOver) {
         //     return;
         // }
+        // shield.rotation += 0.05;
+        // if (cursors.left.isDown) {
+            
+        // }
+        // else if (cursors.right.isDown) {
+            
+        // }
+        // else if (cursors.up.isDown) {
+            
+        // }
+        // else if (cursors.down.isDown) {
 
-        if (cursors.left.isDown) {
-            
-        }
-        else if (cursors.right.isDown) {
-            
-        }
-        else if (cursors.up.isDown) {
-            
-        }
-        else if (cursors.down.isDown) {
-
-        }
+        // }
     }
 
-    function starBombsCollide(star, bombs) {
-        console.log('star collided with bomb');
+    function defenderRocksCollide(defender, rocks) {
+        console.log('defender collided with rock');
     }
 
-    function shieldBombsCollide(shield, bombs) {
-        console.log('star collided with bomb');
+    function shieldRocksCollide(shield, rocks) {
+        console.log('defender collided with rock');
+        // this.killAndHide(rocks);
+    }
+
+    function rotateShield(direction) {
+        if (direction == 'up') {
+            shield.rotateAroundDistance({x:400, y:300}, 0.03, 30);
+            shield.rotate(0.03)
+
+        }
     }
     </script>
 
